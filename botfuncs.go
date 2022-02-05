@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"math/rand"
+	"strconv"
 	"strings"
 
 	discutil "github.com/MaxwellBanks/godiscordutil"
@@ -75,6 +76,15 @@ func genMessage(db *sql.DB, args []string) string {
 	switch args[0] {
 	case "oddity":
 		response = getOddity(db)
+	case "cydanger":
+		roll, lowerBound, upperBound, effect := getCyDanger(db, args)
+		if lowerBound > 200 {
+			response = "Roll value of " + roll + " was above " + strconv.Itoa(lowerBound) +
+				"\n\n" + "Effect: " + effect
+		} else {
+			response = "Roll value of " + roll + " was between " + strconv.Itoa(lowerBound) +
+				" and " + strconv.Itoa(upperBound) + "\n\n" + "Effect: " + effect
+		}
 	}
 	return strings.ReplaceAll(response, "\\n", "\n")
 

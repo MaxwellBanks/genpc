@@ -45,3 +45,35 @@ func getOddity(db *sql.DB) string {
 	handleNonFatal(err)
 	return string(response.description + ".")
 }
+
+type cydanger struct {
+	id        int
+	threshold int
+	effect    string
+}
+
+func getCyDanger(db *sql.DB, args []string) (string, int, int, string) {
+	charCyphers, err := strconv.Atoi(args[1])
+	if err != nil {
+		return "Error", -1, -1, "Error"
+	}
+	maxCyphers, err := strconv.Atoi(args[2])
+	if err != nil {
+		return "Error", -1, -1, "Error"
+	}
+	if charCyphers <= maxCyphers {
+		return "0", 0, 60, "No effect."
+	}
+	roll := 0
+	for i := 0; i < charCyphers-maxCyphers; i++ {
+		roll += (getRandomIndex(100) + 10)
+	}
+	var upperThreshold int
+	var lowerThreshold int
+	var effect string
+	err = db.QueryRow("SELECT threshold, effect FROM cydanger where threshold > "+strconv.Itoa(int(roll))+" limit 1").Scan(&upperThreshold, &effect)
+	handleNonFatal(err)
+	err = db.QueryRow("SELECT threshold FROM cydanger where threshold < " + strconv.Itoa(int(roll)) + " order by threshold desc limit 1").Scan(&lowerThreshold)
+	handleNonFatal(err)
+	return strconv.Itoa(roll), lowerThreshold + 1, upperThreshold, effect
+}
