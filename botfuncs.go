@@ -13,8 +13,11 @@ import (
 type GenFunc func(*sql.DB) string
 
 var CommandMap = map[string]discutil.BotFunc{
-	"info": infoMessage,
-	"gen":  genMessage,
+	"info":     infoMessage,
+	"gen":      genMessage,
+	"generate": genMessage,
+	// "cs":         csMessage,
+	// "cheatsheet": csMessage,
 }
 
 // Gets random index for tables
@@ -87,5 +90,8 @@ func genMessage(db *sql.DB, args []string) string {
 		}
 	}
 	return strings.ReplaceAll(response, "\\n", "\n")
-
 }
+
+// func csMessage(db *sql.DB, args []string) string {
+// 	response := "Cheatsheet:"
+// }
