@@ -2,7 +2,11 @@ module github.com/MaxwellBanks/genpc
 
 go 1.17
 
-require github.com/bwmarrin/discordgo v0.23.2
+require (
+	github.com/MaxwellBanks/godiscordutil v0.0.0-20220205081123-efabec7df091
+	github.com/bwmarrin/discordgo v0.23.2
+	github.com/mattn/go-sqlite3 v1.14.11
+)
 
 require (
 	github.com/gorilla/websocket v1.4.0 // indirect
