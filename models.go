@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"strconv"
 
+	discutil "github.com/MaxwellBanks/godiscordutil"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -76,4 +77,34 @@ func getCyDanger(db *sql.DB, args []string) (string, int, int, string) {
 	err = db.QueryRow("SELECT threshold FROM cydanger where threshold < " + strconv.Itoa(int(roll)) + " order by threshold desc limit 1").Scan(&lowerThreshold)
 	handleNonFatal(err)
 	return strconv.Itoa(roll), lowerThreshold + 1, upperThreshold, effect
+}
+
+type threshold struct {
+	id            int
+	summary       string
+	rollthreshold int
+	effect        string
+}
+
+func getThresholds(db *sql.DB) discutil.RawTable {
+	rows, err := db.Query("SELECT * FROM threshold")
+	handleNonFatal(err)
+	var linedata threshold
+	table := [][]string{
+		{"Level", "Difficulty", "Threshold", "Effect"},
+	}
+	for rows.Next() {
+		err = rows.Scan(&linedata.id, &linedata.summary, &linedata.rollthreshold, &linedata.effect)
+		handleNonFatal(err)
+		line := []string{
+			strconv.Itoa(linedata.id),
+			linedata.summary,
+			strconv.Itoa(linedata.rollthreshold),
+			linedata.effect,
+		}
+		table = append(table, line)
+	}
+	err = rows.Err()
+	handleNonFatal(err)
+	return table
 }

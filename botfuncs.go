@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"math/rand"
 	"strconv"
 	"strings"
@@ -13,11 +14,11 @@ import (
 type GenFunc func(*sql.DB) string
 
 var CommandMap = map[string]discutil.BotFunc{
-	"info":     infoMessage,
-	"gen":      genMessage,
-	"generate": genMessage,
-	// "cs":         csMessage,
-	// "cheatsheet": csMessage,
+	"info":       infoMessage,
+	"gen":        genMessage,
+	"generate":   genMessage,
+	"cs":         csMessage,
+	"cheatsheet": csMessage,
 }
 
 // Gets random index for tables
@@ -92,6 +93,17 @@ func genMessage(db *sql.DB, args []string) string {
 	return strings.ReplaceAll(response, "\\n", "\n")
 }
 
-// func csMessage(db *sql.DB, args []string) string {
-// 	response := "Cheatsheet:"
-// }
+// Handles cheatsheet info, will expand this to give more nuanced info in discord proper
+func csMessage(db *sql.DB, args []string) string {
+	response := "No data found."
+	if len(args) == 0 {
+		return "Cheatsheet link: https://www.thealexandrian.net/creations/numenera/numenera-cheat-sheet-final.pdf"
+	}
+	switch args[0] {
+	case "thresholds":
+		response = fmt.Sprintf(
+			"Roll Thresholds\n```\n%s\n```", discutil.GenTable(getThresholds(db)),
+		)
+	}
+	return response
+}
