@@ -37,7 +37,7 @@ func init() {
 // I'm sure there's a better way to store constants,
 // But this seems like a reasonable approach for now
 func GetBotData() (BotFlag string, DBPath string) {
-	BotFlag, DBPath = "!", "data.db"
+	BotFlag, DBPath = "!", "data/data.db"
 	return
 }
 
@@ -48,20 +48,30 @@ func handleFatal(err error) {
 	}
 }
 
+// Logs and continues in case of nonfatal error
+// TODO: Replace with more robust logging
+func handleNonFatal(err error) {
+	if err != nil {
+		log.Println(err)
+	}
+}
+
 // Generates bot's message to send
 func (env *Env) messageCreate(
 	s *discordgo.Session,
 	m *discordgo.MessageCreate,
 ) {
-	botFlag, dbPath := GetBotData()
+	botFlag, _ := GetBotData()
 	// Ignore invalid messages
 	if discutil.IsOwnMessage(s, m) || !discutil.IsCommand(m.Content, botFlag) {
 		return
 	}
-	var BotMessage string
 	command, args := discutil.ParseMessage(m.Content, botFlag)
-	Message = discutil.CommandToFunc(m.Content)
-
+	BotMessage := discutil.CommandToFunc(command, args, CommandMap, env.db)
+	if BotMessage != "" {
+		_, err := s.ChannelMessageSend(m.ChannelID, BotMessage)
+		handleNonFatal(err)
+	}
 }
 
 func main() {

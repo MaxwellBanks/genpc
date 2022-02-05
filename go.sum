@@ -1,5 +1,7 @@
-github.com/MaxwellBanks/godiscordutil v0.0.0-20220205081123-efabec7df091 h1:9uO5/fUBOl1MBGDUOpDHBxhQl6tGq4HmnHXpJlpFdX4=
-github.com/MaxwellBanks/godiscordutil v0.0.0-20220205081123-efabec7df091/go.mod h1:d6oxbWZ7Ga8seVXfMFA1XHmvGdL3qnU/dXmEF9d/Lds=
+github.com/MaxwellBanks/godiscordutil v0.0.0-20220205090928-27f253a1edd9 h1:HNaIy9WcToQjXmzFDUMv05LTGTEDY39PM2XDcNDGAO4=
+github.com/MaxwellBanks/godiscordutil v0.0.0-20220205090928-27f253a1edd9/go.mod h1:d6oxbWZ7Ga8seVXfMFA1XHmvGdL3qnU/dXmEF9d/Lds=
+github.com/MaxwellBanks/godiscordutil v0.0.0-20220205093418-8624855c82f5 h1:XsmurMwXZ0hZa+0sCYVA+QCdyyRlg+ux3p0bVoEs2uQ=
+github.com/MaxwellBanks/godiscordutil v0.0.0-20220205093418-8624855c82f5/go.mod h1:d6oxbWZ7Ga8seVXfMFA1XHmvGdL3qnU/dXmEF9d/Lds=
 github.com/bwmarrin/discordgo v0.23.2 h1:BzrtTktixGHIu9Tt7dEE6diysEF9HWnXeHuoJEt2fH4=
 github.com/bwmarrin/discordgo v0.23.2/go.mod h1:c1WtWUGN6nREDmzIpyTp/iD3VYt4Fpx+bVyfBG7JE+M=
 github.com/gorilla/websocket v1.4.0 h1:WDFjx/TMzVgy9VdMMQi2K2Emtwi2QcUQsztZ/zLaH/Q=
