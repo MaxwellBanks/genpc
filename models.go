@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"strconv"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -24,4 +25,23 @@ func getInfo(db *sql.DB, request string) info {
 	err = rows.Err()
 	handleNonFatal(err)
 	return response
+}
+
+type oddity struct {
+	id          int
+	description string
+}
+
+func getOddity(db *sql.DB) string {
+	index := getRandomIndex(getTableSize(db, "oddity"))
+	rows, err := db.Query("SELECT * FROM oddity WHERE id like '%" + strconv.Itoa(index) + "%'")
+	handleNonFatal(err)
+	var response oddity
+	for rows.Next() {
+		err = rows.Scan(&response.id, &response.description)
+		handleNonFatal(err)
+	}
+	err = rows.Err()
+	handleNonFatal(err)
+	return string(response.description + ".")
 }
