@@ -1,4 +1,4 @@
-#GenPC
+# GenPC
 
 Discord bot for automating Numenera (and eventually other system) tables.
 
@@ -19,5 +19,5 @@ for a character with 4 cyphers and a max of 5.
 
 TODO: Register commands instead of using string parsing
 
-#Cheatsheet Sources
+# Cheatsheet Sources
 The numenera cheatsheet was collated by Justin Alexander at http://www.thealexandrian.net
