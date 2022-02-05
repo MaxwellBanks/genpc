@@ -14,11 +14,13 @@ import (
 type GenFunc func(*sql.DB) string
 
 var CommandMap = map[string]discutil.BotFunc{
-	"info":       infoMessage,
-	"gen":        genMessage,
-	"generate":   genMessage,
-	"cs":         csMessage,
-	"cheatsheet": csMessage,
+	"info":             infoMessage,
+	"gen":              genMessage,
+	"generate":         genMessage,
+	"cs":               csMessage,
+	"cheatsheet":       csMessage,
+	"mcs":              csMobile,
+	"mobilecheatsheet": csMobile,
 }
 
 // Gets random index for tables
@@ -78,17 +80,37 @@ func genMessage(db *sql.DB, args []string) string {
 	// return strings.ReplaceAll(info, "\\n", "\n")
 
 	switch args[0] {
-	case "oddity":
+	case "oddity", "odditys", "oddities":
 		response = getOddity(db)
-	case "cydanger":
+	case "cydanger", "cypherdanger", "cypherdangers", "cydangers":
 		roll, lowerBound, upperBound, effect := getCyDanger(db, args)
 		if lowerBound > 200 {
 			response = "Roll value of " + roll + " was above " + strconv.Itoa(lowerBound) +
 				"\n\n" + "Effect: " + effect
+			response = fmt.Sprintf(
+				"Roll value of %s was above %d\n\nEffect: %s",
+				roll,
+				lowerBound,
+				effect,
+			)
 		} else {
-			response = "Roll value of " + roll + " was between " + strconv.Itoa(lowerBound) +
-				" and " + strconv.Itoa(upperBound) + "\n\n" + "Effect: " + effect
+			response = fmt.Sprintf(
+				"Roll value of %s was between %d and %d\n\nEffect: %s",
+				roll,
+				lowerBound,
+				upperBound,
+				effect,
+			)
 		}
+	case "quirk", "quirks":
+		roll, lowerBound, upperBound, effect := getQuirk(db)
+		response = fmt.Sprintf(
+			"Roll value of %s was between %d and %d\n\nEffect: %s",
+			roll,
+			lowerBound,
+			upperBound,
+			effect,
+		)
 	}
 	return strings.ReplaceAll(response, "\\n", "\n")
 }
@@ -103,6 +125,27 @@ func csMessage(db *sql.DB, args []string) string {
 	case "thresholds", "threshold":
 		response = fmt.Sprintf(
 			"Roll Thresholds\n```\n%s\n```", discutil.GenTable(getThresholds(db)),
+		)
+
+	}
+	return response
+}
+
+// Hanldes cheatsheet info for mobile devices
+func csMobile(db *sql.DB, args []string) string {
+	response := "No data found."
+	if len(args) == 0 {
+		return "Cheatsheet link: https://www.thealexandrian.net/creations/numenera/numenera-cheat-sheet-final.pdf"
+	}
+	switch args[0] {
+	case "thresholds", "threshold":
+		table := getThresholds(db)
+		var mobileTable [][]string
+		for i := range table {
+			mobileTable = append(mobileTable, table[i][:len(table[i])-1])
+		}
+		response = fmt.Sprintf(
+			"Roll Thresholds\n```\n%s\n```", discutil.GenTable(mobileTable),
 		)
 
 	}

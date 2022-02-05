@@ -6,18 +6,36 @@ Still in early development, for now commands are as follows:
 
 Numenera Helper Commands
 
-!info ARG: general overview of requested feature
-ARG values: bot, cypher, oddity, artifact
+`!info ARG`: general overview of requested feature
+ARG values: `bot, cypher, oddity, artifact`
 
-!gen ARG: generates a random instance of the requested feature
-ARG values: oddity, (soon: cypher, artifact, quirk)
+`!gen ARG`: generates a random instance of the requested feature
+ARG values: `oddity, quirk, (soon: cypher, artifact)`
 
 Getting cypher dangers uses
-!gen cydanger <charcyphers> <maxcyphers>
-e.g. !gen cydanger 4 5
+`!gen cydanger CHARCYPHERS MAXCYPHERS`
+e.g. `!gen cydanger 4 5`
 for a character with 4 cyphers and a max of 5.
 
-TODO: Register commands instead of using string parsing
+`!cs` will provide a link to the pdf cheatsheet
+`!cs ARG` will provide an in-discord cheatsheet for a requested feature
+`!mcs ARG` will provide a mobile-friendly version of the cheatsheet, if applicable
+ARG values: `threshold`
+
+TODO:
+cheatsheet:
+- Modifying tasks
+- Special Rolls
+- Major/Minor effects
+- GM Intrusions
+- damage track
+- combat actions
+
+gen:
+- quirks
+- cypher
+- artifact
+- (eventually) character
 
 # Cheatsheet Sources
 The numenera cheatsheet was collated by Justin Alexander at http://www.thealexandrian.net

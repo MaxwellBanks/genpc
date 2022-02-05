@@ -79,6 +79,24 @@ func getCyDanger(db *sql.DB, args []string) (string, int, int, string) {
 	return strconv.Itoa(roll), lowerThreshold + 1, upperThreshold, effect
 }
 
+type quirk struct {
+	id        int
+	threshold int
+	effect    string
+}
+
+func getQuirk(db *sql.DB) (string, int, int, string) {
+	roll := getRandomIndex(100)
+	var upperThreshold int
+	var lowerThreshold int
+	var effect string
+	err := db.QueryRow("SELECT threshold, effect FROM quirk where threshold > "+strconv.Itoa(int(roll))+" limit 1").Scan(&upperThreshold, &effect)
+	handleNonFatal(err)
+	err = db.QueryRow("SELECT threshold FROM quirk where threshold < " + strconv.Itoa(int(roll)) + " order by threshold desc limit 1").Scan(&lowerThreshold)
+	handleNonFatal(err)
+	return strconv.Itoa(roll), lowerThreshold + 1, upperThreshold, effect
+}
+
 type threshold struct {
 	id            int
 	summary       string
