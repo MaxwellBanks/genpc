@@ -100,10 +100,11 @@ func csMessage(db *sql.DB, args []string) string {
 		return "Cheatsheet link: https://www.thealexandrian.net/creations/numenera/numenera-cheat-sheet-final.pdf"
 	}
 	switch args[0] {
-	case "thresholds":
+	case "thresholds", "threshold":
 		response = fmt.Sprintf(
 			"Roll Thresholds\n```\n%s\n```", discutil.GenTable(getThresholds(db)),
 		)
+
 	}
 	return response
 }
