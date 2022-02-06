@@ -111,6 +111,15 @@ func genMessage(db *sql.DB, args []string) string {
 			upperBound,
 			effect,
 		)
+	case "cypher", "cyphers":
+		name, level, methods, effect := getCypher(db)
+		response = fmt.Sprintf(
+			"Generated Cypher\n**Level %d %s**\n%s\n\nEffect: %s",
+			level,
+			name,
+			methods,
+			effect,
+		)
 	}
 	return strings.ReplaceAll(response, "\\n", "\n")
 }
@@ -131,7 +140,7 @@ func csMessage(db *sql.DB, args []string) string {
 	return response
 }
 
-// Hanldes cheatsheet info for mobile devices
+// Handles cheatsheet info for mobile devices
 func csMobile(db *sql.DB, args []string) string {
 	response := "No data found."
 	if len(args) == 0 {

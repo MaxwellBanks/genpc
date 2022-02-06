@@ -97,6 +97,33 @@ func getQuirk(db *sql.DB) (string, int, int, string) {
 	return strconv.Itoa(roll), lowerThreshold + 1, upperThreshold, effect
 }
 
+type cypher struct {
+	id       int
+	name     string
+	die      int
+	modifier int
+	methods  string
+	effect   string
+}
+
+func getItemLevel(die int, mod int) int {
+	return getRandomIndex(die) + mod
+}
+
+func getCypher(db *sql.DB) (string, int, string, string) {
+	index := getRandomIndex(getTableSize(db, "cypher"))
+	rows, err := db.Query("SELECT * FROM cypher WHERE id like '%" + strconv.Itoa(index) + "%'")
+	handleNonFatal(err)
+	var response cypher
+	for rows.Next() {
+		err = rows.Scan(&response.id, &response.name, &response.die, &response.modifier, &response.methods, &response.effect)
+		handleNonFatal(err)
+	}
+	err = rows.Err()
+	handleNonFatal(err)
+	return response.name, getItemLevel(response.die, response.modifier), response.methods, response.effect
+}
+
 type threshold struct {
 	id            int
 	summary       string
