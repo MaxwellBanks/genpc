@@ -120,6 +120,16 @@ func genMessage(db *sql.DB, args []string) string {
 			methods,
 			effect,
 		)
+	case "artifact", "artifacts":
+		name, level, methods, effect, depletion := getArtifact(db)
+		response = fmt.Sprintf(
+			"Generated Artifact\n**Level %d %s**\n%s\n\nEffect: %s\nDepletion: %s",
+			level,
+			name,
+			methods,
+			effect,
+			depletion,
+		)
 	}
 	return strings.ReplaceAll(response, "\\n", "\n")
 }

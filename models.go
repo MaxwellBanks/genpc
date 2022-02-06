@@ -124,6 +124,30 @@ func getCypher(db *sql.DB) (string, int, string, string) {
 	return response.name, getItemLevel(response.die, response.modifier), response.methods, response.effect
 }
 
+type artifact struct {
+	id        int
+	name      string
+	die       int
+	modifier  int
+	methods   string
+	effect    string
+	depletion string
+}
+
+func getArtifact(db *sql.DB) (string, int, string, string, string) {
+	index := getRandomIndex(getTableSize(db, "artifact"))
+	rows, err := db.Query("SELECT * FROM artifact WHERE id like '%" + strconv.Itoa(index) + "%'")
+	handleNonFatal(err)
+	var response artifact
+	for rows.Next() {
+		err = rows.Scan(&response.id, &response.name, &response.die, &response.modifier, &response.methods, &response.effect, &response.depletion)
+		handleNonFatal(err)
+	}
+	err = rows.Err()
+	handleNonFatal(err)
+	return response.name, getItemLevel(response.die, response.modifier), response.methods, response.effect, response.depletion
+}
+
 type threshold struct {
 	id            int
 	summary       string

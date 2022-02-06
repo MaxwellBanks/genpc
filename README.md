@@ -10,7 +10,7 @@ Numenera Helper Commands
 ARG values: `bot, cypher, oddity, artifact`
 
 `!gen ARG`: generates a random instance of the requested feature
-ARG values: `oddity, quirk, cypher, (soon: artifact)`
+ARG values: `oddity, quirk, cypher, artifact`
 
 Getting cypher dangers uses
 `!gen cydanger CHARCYPHERS MAXCYPHERS`
@@ -32,7 +32,6 @@ cheatsheet:
 - combat actions
 
 gen:
-- artifact
 - (eventually) character
 
 # Cheatsheet Sources
