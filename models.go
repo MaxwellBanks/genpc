@@ -225,3 +225,32 @@ func getEffects(db *sql.DB) discutil.RawTable {
 	handleNonFatal(err)
 	return table
 }
+
+type specialroll struct {
+	id          int
+	roll        int
+	effect      string
+	description string
+}
+
+func getSpecialRolls(db *sql.DB) discutil.RawTable {
+	rows, err := db.Query("SELECT * FROM special_roll")
+	handleNonFatal(err)
+	var linedata specialroll
+	table := [][]string{
+		{"Roll", "Effect", "Description"},
+	}
+	for rows.Next() {
+		err = rows.Scan(&linedata.id, &linedata.roll, &linedata.effect, &linedata.description)
+		handleNonFatal(err)
+		line := []string{
+			strconv.Itoa(linedata.roll),
+			linedata.effect,
+			linedata.description,
+		}
+		table = append(table, line)
+	}
+	err = rows.Err()
+	handleNonFatal(err)
+	return table
+}

@@ -42,10 +42,12 @@ func getTableSize(db *sql.DB, tablename string) int {
 // Handles requests for basic information
 func infoMessage(db *sql.DB, args []string) string {
 	response := "No info data found for this request"
+	request := "bot"
 	if len(args) > 0 {
-		info := getInfo(db, args[0])
-		response = info.data
+		request = args[0]
 	}
+	info := getInfo(db, request)
+	response = info.data
 	return strings.ReplaceAll(response, "\\n", "\n")
 }
 
@@ -152,6 +154,10 @@ func csMessage(db *sql.DB, args []string) string {
 		response = fmt.Sprintf(
 			"Major and Minor Effect Examples\n```\n%s\n```", discutil.GenTable(getEffects(db)),
 		)
+	case "special", "rolls", "roll", "specialrolls", "specialroll", "sr":
+		response = fmt.Sprintf(
+			"Special Roll Effects\n```\n%s\n```", discutil.GenTable(getSpecialRolls(db)),
+		)
 	}
 	return response
 }
@@ -180,6 +186,15 @@ func csMobile(db *sql.DB, args []string) string {
 		}
 		response = fmt.Sprintf(
 			"Effect Examples\n```\n%s\n```", discutil.GenTable(mobileTable),
+		)
+	case "special", "rolls", "roll", "specialrolls", "specialroll", "sr":
+		table := getSpecialRolls(db)
+		var mobileTable [][]string
+		for i := range table {
+			mobileTable = append(mobileTable, table[i][:len(table[i])-1])
+		}
+		response = fmt.Sprintf(
+			"Special Rolls\n```\n%s\n```", discutil.GenTable(mobileTable),
 		)
 	}
 	return response
