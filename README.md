@@ -22,6 +22,8 @@ for a character with 4 cyphers and a max of 5.
 `!mcs ARG` will provide a mobile-friendly version of the cheatsheet, if applicable
 ARG values: `threshold`
 
+`!kronk` will return Kronk's random reaction
+
 TODO:
 cheatsheet:
 - Modifying tasks
