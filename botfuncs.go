@@ -148,7 +148,10 @@ func csMessage(db *sql.DB, args []string) string {
 		response = fmt.Sprintf(
 			"Roll Thresholds\n```\n%s\n```", discutil.GenTable(getThresholds(db)),
 		)
-
+	case "effect", "effects":
+		response = fmt.Sprintf(
+			"Major and Minor Effect Examples\n```\n%s\n```", discutil.GenTable(getEffects(db)),
+		)
 	}
 	return response
 }
@@ -169,14 +172,19 @@ func csMobile(db *sql.DB, args []string) string {
 		response = fmt.Sprintf(
 			"Roll Thresholds\n```\n%s\n```", discutil.GenTable(mobileTable),
 		)
-
+	case "effect", "effects":
+		table := getEffects(db)
+		var mobileTable [][]string
+		for i := range table {
+			mobileTable = append(mobileTable, table[i][:len(table[i])-1])
+		}
+		response = fmt.Sprintf(
+			"Effect Examples\n```\n%s\n```", discutil.GenTable(mobileTable),
+		)
 	}
 	return response
 }
 
 func kronkMessage(db *sql.DB, args []string) string {
-	// reaction := getKronk(db)
-	// response := fmt.Sprintf("Kronk's Reaction: %s", reaction)
-	// return response
 	return getKronk(db)
 }

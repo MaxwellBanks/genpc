@@ -196,3 +196,32 @@ func getKronk(db *sql.DB) string {
 	handleNonFatal(err)
 	return string(response.reaction)
 }
+
+type effect struct {
+	id          int
+	level       string
+	effect      string
+	description string
+}
+
+func getEffects(db *sql.DB) discutil.RawTable {
+	rows, err := db.Query("SELECT * FROM effect")
+	handleNonFatal(err)
+	var linedata effect
+	table := [][]string{
+		{"Type", "Effect", "Description"},
+	}
+	for rows.Next() {
+		err = rows.Scan(&linedata.id, &linedata.level, &linedata.effect, &linedata.description)
+		handleNonFatal(err)
+		line := []string{
+			linedata.level,
+			linedata.effect,
+			linedata.description,
+		}
+		table = append(table, line)
+	}
+	err = rows.Err()
+	handleNonFatal(err)
+	return table
+}
