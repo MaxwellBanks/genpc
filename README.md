@@ -26,6 +26,7 @@ ARG values: `threshold, effects, rolls`
 `!kronk` will return Kronk's random reaction
 
 TODO:
+Refactor code to separate i/o from business logic, allow for unit tests
 cheatsheet:
 - Modifying tasks
 - GM Intrusions
