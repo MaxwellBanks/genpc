@@ -11,8 +11,10 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+// GenFunc is a type signature for generator functions
 type GenFunc func(*sql.DB) string
 
+// CommandMap contains a map of user commands to functions
 var CommandMap = map[string]discutil.BotFunc{
 	"info":             infoMessage,
 	"gen":              genMessage,
@@ -21,6 +23,7 @@ var CommandMap = map[string]discutil.BotFunc{
 	"cheatsheet":       csMessage,
 	"mcs":              csMobile,
 	"mobilecheatsheet": csMobile,
+	"kronk":            kronkMessage,
 }
 
 // Gets random index for tables
@@ -169,4 +172,11 @@ func csMobile(db *sql.DB, args []string) string {
 
 	}
 	return response
+}
+
+func kronkMessage(db *sql.DB, args []string) string {
+	// reaction := getKronk(db)
+	// response := fmt.Sprintf("Kronk's Reaction: %s", reaction)
+	// return response
+	return getKronk(db)
 }

@@ -15,15 +15,18 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+// Env holds the global database pointer.
 type Env struct {
 	db *sql.DB
 }
 
+// BotData holds global bot configuration information.
 type BotData struct {
 	Flag   string
 	DBPath string
 }
 
+// Token contains the discord bot token.
 var Token string
 
 // Sets up discord bot token and seeds random generator
@@ -33,7 +36,7 @@ func init() {
 	rand.Seed(time.Now().UnixNano())
 }
 
-// Returns bot data for use in other functions
+// GetBotData returns bot data for use in other functions
 // I'm sure there's a better way to store constants,
 // But this seems like a reasonable approach for now
 func GetBotData() (BotFlag string, DBPath string) {

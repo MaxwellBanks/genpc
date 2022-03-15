@@ -177,3 +177,22 @@ func getThresholds(db *sql.DB) discutil.RawTable {
 	handleNonFatal(err)
 	return table
 }
+
+type kronk struct {
+	id       int
+	reaction string
+}
+
+func getKronk(db *sql.DB) string {
+	index := getRandomIndex(getTableSize(db, "kronk"))
+	rows, err := db.Query("SELECT * FROM kronk WHERE id like '%" + strconv.Itoa(index) + "%'")
+	handleNonFatal(err)
+	var response kronk
+	for rows.Next() {
+		err = rows.Scan(&response.id, &response.reaction)
+		handleNonFatal(err)
+	}
+	err = rows.Err()
+	handleNonFatal(err)
+	return string(response.reaction)
+}
